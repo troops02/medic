@@ -12,6 +12,21 @@ import { Theme } from '../component/Theme';
 export function Signup ({navigation}){
     const [appIsReady, setAppIsReady] = useState(false);
     const [accountType, setAccountType] = useState('individual');
+    const [firsttName,setFirstName] =useState('');
+    const [lastName,setLastName] =useState('');
+    const [phone,setPhone] =useState('');
+    const [email,setEmail] =useState('');
+    const [password,setPassword] =useState('');
+    const [desc,setDesc]= useState('');
+
+    //create an authenticated user
+    function CreateUserAuth () {
+        createUserWhiteEmailAndPassword(authentication,email,password)
+        .then(() => {
+            console.log(userCredentials)
+        })
+        // .catch(console.error( => con);())
+    }
 
     useEffect(() => {
         async function prepare() {
@@ -49,7 +64,7 @@ export function Signup ({navigation}){
                     <Text style={styles.headText}>Get Started</Text>
 
                     <View style={styles.btnGroup}>
-                        <Button mode='contained' color={Theme.colors.ui.nursePurple} style={{paddingVertical:Theme.sizes[3],marginRight:Theme.sizes[2]}}
+                        <Button mode='contained' color={Theme.colors.ui.nursePurple} style={{paddingVertical:Theme.sizes[3],marginBottom:10}}
                         onPress={() => {
                             setAccountType('individual')
                         }}> Individual</Button>
@@ -66,21 +81,27 @@ export function Signup ({navigation}){
 
                     <TextInput label='First name' 
                     mode='outlined' outlineColor={Theme.colors.bg.tertiary} 
-                    activeOutlineColor={Theme.colors.bg.quartenary}/>
+                    activeOutlineColor={Theme.colors.bg.quartenary}
+                    onChangeText={(text) => setFirstName(text)}
+                    />
 
                     <TextInput label='Last name' 
                     mode='outlined' outlineColor={Theme.colors.bg.tertiary} 
-                    activeOutlineColor={Theme.colors.bg.quartenary}/>
+                    activeOutlineColor={Theme.colors.bg.quartenary}
+                    onChangeText={(text) => setLastName(text)}
+                    />
 
                     <TextInput label='Phone number' 
                     mode='outlined' outlineColor={Theme.colors.bg.tertiary} 
                     activeOutlineColor={Theme.colors.bg.quartenary} 
-                    keyboardType='phone-pad'/>
+                    keyboardType='phone-pad'
+                    onChangeText={(text) => setPhone(text)}/>
 
                     <TextInput label='Email address'
                      mode='outlined' outlineColor={Theme.colors.bg.tertiary} 
                      activeOutlineColor={Theme.colors.bg.quartenary} 
-                     keyboardType='email-address'/>
+                     keyboardType='email-address'
+                     onChangeText={(text) => setEmail(text)}/>
 
                     <TextInput label='Create password' 
                     mode='outlined' outlineColor={Theme.colors.bg.tertiary} 
@@ -90,9 +111,10 @@ export function Signup ({navigation}){
                     <TextInput label='Confirm password' 
                     mode='outlined' outlineColor={Theme.colors.bg.tertiary}
                      activeOutlineColor={Theme.colors.bg.quartenary} 
-                     secureTextEntry={true}/>
+                     secureTextEntry={true}
+                     onChangeText={(text) => setPassword(text)}/>
 
-                    {/*only show up if accoun type is provider*/}
+                    {/*only show up if account type is provider*/}
                     { accountType == 'provider' ?
                     <TextInput label='Describe your work' 
                     mode='outlined' outlineColor={Theme.colors.bg.tertiary}
@@ -103,7 +125,9 @@ export function Signup ({navigation}){
 
                     <Button mode='contained' 
                     color={accountType == 'provider' ? Theme.colors.ui.nurseGray : Theme.colors.ui.nursePurple } 
-                    style={{paddingVertical:Theme.sizes[3], marginTop:Theme.sizes[2]}}> Create account</Button>
+                    style={{paddingVertical:Theme.sizes[3], marginTop:Theme.sizes[2]}} 
+                    onPress={() => navigation.navigate('Home')}> 
+                    Create account</Button>
 
                     {/* navigating to login screen*/}
                     <View style={styles.textInline}>
@@ -140,7 +164,7 @@ const styles = StyleSheet.create({
         marginVertical:Theme.sizes[4],
     },
     btnGroup:{
-        flexDirection:'row',
+    
     },
     subHeading:{
         fontSize:Theme.fonts.fontSizePoint.h5,

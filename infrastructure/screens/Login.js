@@ -89,6 +89,7 @@ if (!appIsReady) {
       container:{
         flex:1,
         padding:Theme.sizes[3],
+        backgroundColor:'white'
       },
       brandBlock:{
           flexDirection:'row',

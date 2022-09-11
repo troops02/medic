@@ -89,5 +89,6 @@ const styles = StyleSheet.create({
     brandInfo:{
         fontSize:Theme.fonts.fontSizePoint.body,
         textAlign:'center',
+        // alignItems:'stretch'
     },
 });

@@ -7,26 +7,31 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import {faCross } from '@fortawesome/free-solid-svg-icons';
 import {Button, TextInput} from 'react-native-paper';
 import { Theme } from '../component/Theme';
+import { authentication } from './Services/Firebase';
+import { createUserWithEmailAndPassword, onAuthStateChanged } from 'firebase/auth';
 
 
-export function Signup ({navigation}){
+export function Signup({navigation}){
     const [appIsReady, setAppIsReady] = useState(false);
     const [accountType, setAccountType] = useState('individual');
-    const [firsttName,setFirstName] =useState('');
-    const [lastName,setLastName] =useState('');
-    const [phone,setPhone] =useState('');
-    const [email,setEmail] =useState('');
-    const [password,setPassword] =useState('');
-    const [desc,setDesc]= useState('');
+    const [firstName,setFirstName] = useState('');
+    const [lastName,setLastName] = useState('');
+    const [phone,setPhone] = useState('');
+    const [email,setEmail] = useState('');
+    const [password,setPassword] = useState('');
+    const [desc,setDesc] = useState('');
 
-    //create an authenticated user
-    function CreateUserAuth () {
-        createUserWhiteEmailAndPassword(authentication,email,password)
-        .then(() => {
-            console.log(userCredentials)
+//create an authenticated user
+function createUser() {
+    createUserWithEmailAndPassword(authentication,email,password)
+    .then(() => {
+        onAuthStateChanged(authentication,(user) => {
+            const userUID = user.uid;
+            console.log(userUID)
         })
-        // .catch(console.error( => con);())
-    }
+    })
+    .catch((error) => console.log(error) )
+}
 
     useEffect(() => {
         async function prepare() {
@@ -79,62 +84,53 @@ export function Signup ({navigation}){
                         {accountType == 'individual' ? 'Create an individual account' : 'Create a provider account' }
                     </Text>
 
-                    <TextInput label='First name' 
-                    mode='outlined' outlineColor={Theme.colors.bg.tertiary} 
-                    activeOutlineColor={Theme.colors.bg.quartenary}
-                    onChangeText={(text) => setFirstName(text)}
-                    />
+                    <TextInput label='First name' mode='outlined' 
+                    outlineColor={Theme.colors.bg.tertiary}
+                     activeOutlineColor={Theme.colors.bg.quartenary}
+                    onChangeText={(text) => setFirstName(text)}/>
 
-                    <TextInput label='Last name' 
-                    mode='outlined' outlineColor={Theme.colors.bg.tertiary} 
+                    <TextInput label='Last name' mode='outlined' 
+                    outlineColor={Theme.colors.bg.tertiary} 
                     activeOutlineColor={Theme.colors.bg.quartenary}
-                    onChangeText={(text) => setLastName(text)}
-                    />
+                    onChangeText={(text) => setLastName(text)}/>
 
-                    <TextInput label='Phone number' 
-                    mode='outlined' outlineColor={Theme.colors.bg.tertiary} 
-                    activeOutlineColor={Theme.colors.bg.quartenary} 
-                    keyboardType='phone-pad'
+                    <TextInput label='Phone number' mode='outlined' 
+                    outlineColor={Theme.colors.bg.tertiary} 
+                    activeOutlineColor={Theme.colors.bg.quartenary}
+                     keyboardType='phone-pad'
                     onChangeText={(text) => setPhone(text)}/>
 
-                    <TextInput label='Email address'
-                     mode='outlined' outlineColor={Theme.colors.bg.tertiary} 
-                     activeOutlineColor={Theme.colors.bg.quartenary} 
+                    <TextInput label='Email address' mode='outlined' 
+                    outlineColor={Theme.colors.bg.tertiary} 
+                    activeOutlineColor={Theme.colors.bg.quartenary}
                      keyboardType='email-address'
-                     onChangeText={(text) => setEmail(text)}/>
+                    onChangeText={(text) => setEmail(text)}/>
 
-                    <TextInput label='Create password' 
-                    mode='outlined' outlineColor={Theme.colors.bg.tertiary} 
+                    <TextInput label='Create password' mode='outlined' 
+                    outlineColor={Theme.colors.bg.tertiary} 
+                    activeOutlineColor={Theme.colors.bg.quartenary} 
+                    secureTextEntry={true}
+                    onChangeText={(text) => setPassword(text)}/>
+
+                    <TextInput label='Confirm password' mode='outlined' 
+                    outlineColor={Theme.colors.bg.tertiary} 
                     activeOutlineColor={Theme.colors.bg.quartenary} 
                     secureTextEntry={true}/>
 
-                    <TextInput label='Confirm password' 
-                    mode='outlined' outlineColor={Theme.colors.bg.tertiary}
-                     activeOutlineColor={Theme.colors.bg.quartenary} 
-                     secureTextEntry={true}
-                     onChangeText={(text) => setPassword(text)}/>
-
-                    {/*only show up if account type is provider*/}
+                    {/*only show up if accoun type is provider*/}
                     { accountType == 'provider' ?
-                    <TextInput label='Describe your work' 
-                    mode='outlined' outlineColor={Theme.colors.bg.tertiary}
-                    activeOutlineColor={Theme.colors.bg.quartenary} 
-                    multiline={true}/>
+                    <TextInput label='Describe your work' mode='outlined' outlineColor={Theme.colors.bg.tertiary} activeOutlineColor={Theme.colors.bg.quartenary} multiline={true}/>
                     : null
                     }
 
-                    <Button mode='contained' 
-                    color={accountType == 'provider' ? Theme.colors.ui.nurseGray : Theme.colors.ui.nursePurple } 
-                    style={{paddingVertical:Theme.sizes[3], marginTop:Theme.sizes[2]}} 
-                    onPress={() => navigation.navigate('Home')}> 
-                    Create account</Button>
+                    <Button mode='contained' color={accountType == 'provider' ? Theme.colors.ui.nurseGray : Theme.colors.ui.nursePurple } style={{paddingVertical:Theme.sizes[3], marginTop:Theme.sizes[2]}} onPress={createUser}> Create account</Button>
 
                     {/* navigating to login screen*/}
                     <View style={styles.textInline}>
                         <Text style={styles.ctaText}>Already have an account? </Text>
                         <TouchableOpacity
                         onPress={() => navigation.navigate('Login')}>
-                            <Text style={[styles.ctaText,{color:Theme.colors.ui.nurseDullGreen}]}>Login</Text>
+                            <Text style={[styles.ctaText,{color:Theme.colors.ui.nursePurple}]}>Go to login</Text>
                         </TouchableOpacity>
                     </View>
                 </ScrollView>
@@ -164,7 +160,7 @@ const styles = StyleSheet.create({
         marginVertical:Theme.sizes[4],
     },
     btnGroup:{
-    
+        // flexDirection:'row',
     },
     subHeading:{
         fontSize:Theme.fonts.fontSizePoint.h5,

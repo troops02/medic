@@ -4,8 +4,8 @@ import * as SplashScreen from 'expo-splash-screen';
 import * as Font from 'expo-font';
 import { Questrial_400Regular } from "@expo-google-fonts/questrial";
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import {Button, TextInput} from 'react-native-paper';
-import { Theme } from '../components/Theme';
+import {Button,} from 'react-native-paper';
+import { Theme } from '../component/Theme';
 import { faPhone } from '@fortawesome/free-solid-svg-icons';
 import { faMessage } from '@fortawesome/free-solid-svg-icons';
 import { faEnvelope } from '@fortawesome/free-solid-svg-icons';
@@ -53,7 +53,7 @@ export function ProviderProfile({navigation}){
                         <View style={styles.semicontainer}>
                         <View style={styles.docProfile}>
                             <Image
-                                source={require('../../assets/images/doctor.jpeg')}
+                                source={require('../../assets/images/services/doctor.jpg')}
                                 resizeMode='cover'
                                 borderRadius={10}
                                 style={styles.docImage}

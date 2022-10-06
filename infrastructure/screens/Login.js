@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useContext} from 'react';
 import {View, Text, StyleSheet, SafeAreaView, TouchableOpacity, ScrollView } from 'react-native';
 import * as SplashScreen from 'expo-splash-screen';
 import * as Font from 'expo-font';
@@ -7,10 +7,32 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import {faCross } from '@fortawesome/free-solid-svg-icons';
 import {Button, TextInput} from 'react-native-paper';
 import { Theme } from '../component/Theme';
+import { authentication } from './services/firebase';
+import { onAuthStateChanged, signInWithEmailAndPassword } from 'firebase/auth';
+import { AppContext } from '../Globals/Appcontext';
+
+
 
 
 export const Login = ({navigation}) => {
-  const [appIsReady, setAppIsReady] = useState(false);
+
+    const [appIsReady, setAppIsReady] = useState(false);
+    const [email,setEmail] = useState('');
+    const [password,setPassword] = useState('');
+    const {setUserUID,setSignedIn} = useContext(AppContext)
+
+    function LoginAuth(){
+        signInWithEmailAndPassword(authentication,email,password)
+        .then((userCredential) => {
+            const user = userCredential.user;
+            
+            onAuthStateChanged(authentication,(currentUser) => {
+                setUserUID(currentUser.uid);
+                setSignedIn(true)
+                navigation.navigate('Home')
+            })
+        })
+    }
   
   useEffect(() => {
     async function prepare() {
@@ -52,16 +74,19 @@ if (!appIsReady) {
                         mode='outlined' outlineColor={Theme.colors.bg.tertiary} 
                         activeOutlineColor={Theme.colors.bg.quartenary} 
                         keyboardType='email-address'
-                        />
+                        onChangeText={(text) => setEmail(text)}/>
 
                         <TextInput label='Password' 
                         mode='outlined' outlineColor={Theme.colors.bg.tertiary} 
                         activeOutlineColor={Theme.colors.bg.quartenary} 
-                        secureTextEntry={true}/>
+                        secureTextEntry={true}
+                        onChangeText={(text) => setPassword(text)}/>
                     
                     <View style={styles.topUp}></View>
                     <Button mode='contained' 
-                    style={{paddingVertical:Theme.sizes[3], marginTop:Theme.sizes[2]}}>Login
+                    style={{paddingVertical:Theme.sizes[3], 
+                    marginTop:Theme.sizes[2]}} 
+                    onPress={LoginAuth}>Login
                     </Button>
 
 
@@ -81,6 +106,7 @@ if (!appIsReady) {
     const styles = StyleSheet.create({
       areaView:{
           flex:1,
+          marginTop:Platform.OS === 'android' ? StatusBar.currentHeight : null
       },
       brandName:{
         fontSize:Theme.fonts.fontSizePoint.h4,

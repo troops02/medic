@@ -4,8 +4,7 @@ import React from 'react'
 export function Notifications  () {
   return (
     <View>
-      <Text>Notifications</Text>
+      <Text style={{padding:45,marginVertical:30}}>Notifications</Text>
     </View>
   )
 }
-

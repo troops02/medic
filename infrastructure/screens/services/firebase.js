@@ -2,12 +2,13 @@
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 import  {getFirestore} from 'firebase/firestore'
+import { googleAPi } from "../../Secrets/SecretsAPI.js.key";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyBCYEiPBILpNDXuVMIVHodw8hOaXx2z5lY",
+  apiKey: googleAPi,
   authDomain: "lunar-tube-362014.firebaseapp.com",
   projectId: "lunar-tube-362014",
   storageBucket: "lunar-tube-362014.appspot.com",
@@ -16,6 +17,6 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-export const app = initializeApp(firebaseConfig);
+ const app = initializeApp(firebaseConfig);
 export const authentication = getAuth(app);
 export const db = getFirestore(app);

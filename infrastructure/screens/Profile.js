@@ -10,13 +10,14 @@ import { faPhone } from '@fortawesome/free-solid-svg-icons';
 import { faMessage } from '@fortawesome/free-solid-svg-icons';
 import { faEnvelope } from '@fortawesome/free-solid-svg-icons';
 
+
 const services = [
     {id:1,serviceIcon:faPhone },
     {id:2,serviceIcon:faMessage},
     {id:3,serviceIcon:faEnvelope},
 ]
 
-export function ProviderProfile({navigation}){
+export function Profile({navigation}){
     const [appIsReady, setAppIsReady] = useState(false);
     useEffect(() => {
         async function prepare() {
@@ -103,7 +104,7 @@ export function ProviderProfile({navigation}){
                             </View>
                         </View>
                         <Text style={styles.docBio}>Description</Text>
-                        <Text style={styles.docBioWrite}>He was born in Nigeria where he grew up until the age of 17, after which he lived in Hamiltan Ontaio. He obtained his Bachelors of Science in Life Sciences at Queen's University in <Text style={{color:'blue'}}>More...</Text></Text>
+                        <Text style={styles.docBioWrite}>He was born in Germeny , after which he lived in Hamiltan Ontaio. He obtained his Bachelors of Science in Life Sciences at Harvard University</Text>
                         <View>
                             <Text style={styles.docBio}>His Specialties</Text>
                             <View style={styles.docSpecialty}>

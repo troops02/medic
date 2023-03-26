@@ -157,6 +157,7 @@ export function Signup({navigation}){
                     keyboardType='phone-pad'
                     onChangeText={(text) => setPhone(text)}
                     />
+
                     <TextInput label='email address' 
                     mode='outlined'
                     outlineColor={Theme.colors.bg.tertiary} 
@@ -164,6 +165,7 @@ export function Signup({navigation}){
                     keyboardType='email-address'
                     onChangeText={(text) => setEmail(text)}
                     />
+
                     <TextInput label='Create password' 
                     mode='outlined'
                     outlineColor={Theme.colors.bg.tertiary} 
@@ -171,6 +173,7 @@ export function Signup({navigation}){
                     secureTextEntry={true}
                     onChangeText={(text) => setPassword(text)}
                     />
+                    
                     <TextInput label='Confirm password' 
                     mode='outlined'
                     outlineColor={Theme.colors.bg.tertiary} 

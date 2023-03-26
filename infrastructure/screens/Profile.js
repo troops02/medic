@@ -237,5 +237,5 @@ const styles = StyleSheet.create({
     },
     docSpecColor:{
         color:Theme.colors.ui.nursePurple
-    }
+    },
 });
